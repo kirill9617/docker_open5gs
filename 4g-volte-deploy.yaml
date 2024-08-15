@@ -472,6 +472,25 @@ services:
     networks:
       default:
         ipv4_address: ${GRAFANA_IP}
+
+  freeswitch:
+    image: dheaps/freeswitch  
+    container_name: freeswitch
+    env_file:
+      - .env
+    environment:
+      - "SOUND_RATES=8000:16000:48000"
+      - "SOUND_TYPES=music:en-us-callie"
+    volumes:
+      - freeswitch-sounds:/usr/share/freeswitch/sounds
+      - ./freeswitch:/etc/freeswitch
+    networks:
+      default:
+        ipv4_address: ${FREESWITCH_IP}
+    cap_add:
+      - NET_ADMIN
+
+  
 networks:
   default:
     ipam:
@@ -480,3 +499,4 @@ networks:
 volumes:
   mongodbdata: {}
   dbdata: {}
+  freeswitch-sounds: {}

@@ -72,6 +72,9 @@ sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/kamailio_scscf/scscf.cfg
 sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' /etc/kamailio_scscf/scscf.cfg
 sed -i 's|IMS_SLASH_DOMAIN|'$IMS_SLASH_DOMAIN'|g' /etc/kamailio_scscf/scscf.cfg
 sed -i 's|MYSQL_IP|'$MYSQL_IP'|g' /etc/kamailio_scscf/scscf.cfg
+sed -i 's|FREESWITCH_IP|'$FREESWITCH_IP'|g' /etc/kamailio_scscf/dispatcher.list
+
+
 
 sed -i 's|SCSCF_IP|'$SCSCF_IP'|g' /etc/kamailio_scscf/scscf.xml
 sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/kamailio_scscf/scscf.xml

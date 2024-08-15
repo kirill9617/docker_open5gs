@@ -18,20 +18,20 @@ mme:
           - address: SGWC_IP
         smf:
           - address: SMF_IP
-    sgsap:
-      server:
-        - address: OSMOMSC_IP
-          map:
-            tai:
-              plmn_id:
-                mcc: MCC
-                mnc: MNC
-              tac: 1
-            lai:
-              plmn_id:
-                mcc: MCC
-                mnc: MNC
-              lac: 1
+#    sgsap:
+#      server:
+#        - address: OSMOMSC_IP
+#          map:
+#            tai:
+#              plmn_id:
+#                mcc: MCC
+#                mnc: MNC
+#              tac: 1
+#            lai:
+#              plmn_id:
+#                mcc: MCC
+#                mnc: MNC
+#              lac: 1
     gummei: 
       - plmn_id:
           mcc: MCC

@@ -38,6 +38,7 @@ cp /mnt/dns/named.conf /etc/bind
 
 sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' /etc/bind/epc_zone
 sed -i 's|DNS_IP|'$DNS_IP'|g' /etc/bind/epc_zone
+sed -i 's|PYHSS_IP|'$PYHSS_IP'|g' /etc/bind/epc_zone
 [ -z "$PCRF_PUB_IP" ] && sed -i 's|PCRF_IP|'$PCRF_IP'|g' /etc/bind/epc_zone || sed -i 's|PCRF_IP|'$PCRF_PUB_IP'|g' /etc/bind/epc_zone
 
 sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/bind/ims_zone

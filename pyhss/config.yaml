@@ -10,10 +10,10 @@ hss:
   bind_port: PYHSS_BIND_PORT
 
   #Value to populate as the OriginHost in Diameter responses
-  OriginHost: "hss.IMS_DOMAIN"
+  OriginHost: "hss.EPC_DOMAIN"
 
   #Value to populate as the OriginRealm in Diameter responses
-  OriginRealm: "IMS_DOMAIN"
+  OriginRealm: "EPC_DOMAIN"
 
   #Value to populate as the Product name in Diameter responses
   ProductName: "pyHSS"

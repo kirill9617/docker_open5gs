@@ -1,66 +1,66 @@
 version: '3'
 services:
-  mongo:
-    image: mongo:6.0
-    container_name: mongo
-    command: --bind_ip 0.0.0.0
-    env_file:
-      - .env
-    volumes:
-      - mongodbdata:/data/db
-      - mongodbdata:/data/configdb
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-    expose:
-      - "27017/udp"
-      - "27017/tcp"
-    networks:
-      default:
-        ipv4_address: ${MONGO_IP}
-  webui:
-    image: docker_open5gs
-    container_name: webui
-    depends_on:
-      - mongo
-    env_file:
-      - .env
-    environment:
-      - COMPONENT_NAME=webui
-    volumes:
-      - ./webui:/mnt/webui
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-    expose:
-      - "9999/tcp"
-    ports:
-      - "9999:9999/tcp"
-    networks:
-      default:
-        ipv4_address: ${WEBUI_IP}
-  hss:
-    image: docker_open5gs
-    container_name: hss
-    env_file:
-      - .env
-    environment:
-      - COMPONENT_NAME=hss-1
-    volumes:
-      - ./hss:/mnt/hss
-      - ./log:/open5gs/install/var/log/open5gs
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-    depends_on:
-      - mongo
-    expose:
-      - "3868/udp"
-      - "3868/tcp"
-      - "3868/sctp"
-      - "5868/udp"
-      - "5868/tcp"
-      - "5868/sctp"
-    networks:
-      default:
-        ipv4_address: ${HSS_IP}
+#  mongo:
+#    image: mongo:6.0
+#    container_name: mongo
+#    command: --bind_ip 0.0.0.0
+#    env_file:
+#      - .env
+#    volumes:
+#      - mongodbdata:/data/db
+#      - mongodbdata:/data/configdb
+#      - /etc/timezone:/etc/timezone:ro
+#      - /etc/localtime:/etc/localtime:ro
+#    expose:
+#      - "27017/udp"
+#      - "27017/tcp"
+#    networks:
+#      default:
+#        ipv4_address: ${MONGO_IP}
+#  webui:
+#    image: docker_open5gs
+#    container_name: webui
+#    depends_on:
+#      - mongo
+#    env_file:
+#      - .env
+#    environment:
+#      - COMPONENT_NAME=webui
+#    volumes:
+#      - ./webui:/mnt/webui
+#      - /etc/timezone:/etc/timezone:ro
+#      - /etc/localtime:/etc/localtime:ro
+#    expose:
+#      - "9999/tcp"
+#    ports:
+#      - "9999:9999/tcp"
+#    networks:
+#      default:
+#        ipv4_address: ${WEBUI_IP}
+#  hss:
+#    image: docker_open5gs
+#    container_name: hss
+#    env_file:
+#      - .env
+#    environment:
+#      - COMPONENT_NAME=hss-1
+#    volumes:
+#      - ./hss:/mnt/hss
+#      - ./log:/open5gs/install/var/log/open5gs
+#      - /etc/timezone:/etc/timezone:ro
+#      - /etc/localtime:/etc/localtime:ro
+#    depends_on:
+#      - mongo
+#    expose:
+#      - "3868/udp"
+#      - "3868/tcp"
+#      - "3868/sctp"
+#      - "5868/udp"
+#      - "5868/tcp"
+#      - "5868/sctp"
+#    networks:
+#      default:
+#        ipv4_address: ${HSS_IP}
   sgwc:
     image: docker_open5gs
     depends_on:
@@ -161,7 +161,7 @@ services:
   mme:
     image: docker_open5gs
     depends_on:
-      - hss
+      - pyhss
       - sgwc
       - sgwu
       - smf
@@ -199,8 +199,8 @@ services:
       - .env
     environment:
       - COMPONENT_NAME=pcrf-1
-    depends_on:
-      - mongo
+#    depends_on:
+#      - mongo
     volumes:
       - ./pcrf:/mnt/pcrf
       - ./log:/open5gs/install/var/log/open5gs

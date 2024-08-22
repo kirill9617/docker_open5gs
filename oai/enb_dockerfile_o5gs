@@ -24,7 +24,7 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-FROM oaisoftwarealliance/oai-enb:develop
+FROM ubuntu:focal
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -57,5 +57,4 @@ RUN . ./oaienv && cd cmake_targets && \
     ./build_oai -I -w USRP --eNB --verbose-compile
 
 CMD . ./oaienv && /mnt/oai/oai_init.sh && cd cmake_targets/lte_build_oai/build && \
-
-    ./lte-softmodem -O $OPENAIR_DIR/targ##ets/PROJECTS/GENERIC-LTE-EPC/CONF/enb.band7.tm1.50PRB.usrpb210.conf -d
+    ./lte-softmodem -O $OPENAIR_DIR/targets/PROJECTS/GENERIC-LTE-EPC/CONF/enb.band7.tm1.50PRB.usrpb210.conf -d

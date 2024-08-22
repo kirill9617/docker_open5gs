@@ -60,6 +60,7 @@
       information on this topic.
   -->
   <X-PRE-PROCESS cmd="set" data="domain=$${local_ip_v4}"/>
+  <!-- X-PRE-PROCESS cmd="set" data="domain_name=ims.mnc001.mcc001.3gppnetwork.org"/ -->
   <X-PRE-PROCESS cmd="set" data="domain_name=$${domain}"/>
   <X-PRE-PROCESS cmd="set" data="hold_music=local_stream://moh"/>
   <X-PRE-PROCESS cmd="set" data="use_profile=external"/>

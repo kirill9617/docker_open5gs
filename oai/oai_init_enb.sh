@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # BSD 2-Clause License
 
 # Copyright (c) 2020, Supreeth Herle
@@ -24,38 +26,19 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-FROM oaisoftwarealliance/oai-enb:develop
+export IP_ADDR=$(awk 'END{print $1}' /etc/hosts)
+export IF_NAME=$(ip r | awk '/default/ { print $5 }')
+ENB_CONF_FILE="/tmp/end.conf"
 
-ENV DEBIAN_FRONTEND=noninteractive
+cp /mnt/oai/enb.band7.tm1.50PRB.usrpb210.conf $ENB_CONF_FILE
 
-# Install updates and dependencies
-RUN apt-get update && \
-    apt-get -y install cmake git subversion software-properties-common apt-utils unzip xxd
+[ ${#MNC} == 3 ] && MNC_LEN=3 || MNC_LEN=2
 
-# Install dependencies to build SoapySDR and Lime Suite
-RUN add-apt-repository -y ppa:myriadrf/drivers && \
-    apt update && \
-    apt -y install libi2c-dev libusb-1.0-0-dev git g++ cmake libsqlite3-dev libwxgtk3.0-gtk3-dev freeglut3-dev \
-    python3-distutils gnuplot libfltk1.3-dev liboctave-dev libz-dev
+sed -i 's|MNC_LEN|'$MNC_LEN'|g' $ENB_CONF_FILE
+sed -i 's|MNC|'$MNC'|g' $ENB_CONF_FILE
+sed -i 's|MCC|'$MCC'|g' $ENB_CONF_FILE
+sed -i 's|OAI_ENB_IF|'$IF_NAME'|g' $ENB_CONF_FILE
+sed -i 's|OAI_ENB_IP|'$OAI_ENB_IP'|g' $ENB_CONF_FILE
+sed -i 's|MME_IP|'$MME_IP'|g' $ENB_CONF_FILE
 
-# Install LimeSuite
-RUN git clone https://github.com/myriadrf/LimeSuite.git && \
-    cd LimeSuite && \
-    git checkout tags/v20.10.0 -b v20.10.0 && \
-    mkdir builddir && cd builddir && cmake .. && \
-    make -j`nproc` && make install && ldconfig && \
-    cd ../udev-rules && sh ./install.sh
-
-# Cloning RAN repository (eNB RAN + UE RAN)
-RUN git clone https://gitlab.eurecom.fr/oai/openairinterface5g.git && \
-    cd openairinterface5g/ && git checkout develop
-
-# Set the working directory to openairinterface5g
-WORKDIR openairinterface5g
-
-RUN . ./oaienv && cd cmake_targets && \
-    ./build_oai -I -w USRP --eNB --verbose-compile
-
-CMD . ./oaienv && /mnt/oai/oai_init.sh && cd cmake_targets/lte_build_oai/build && \
-
-    ./lte-softmodem -O $OPENAIR_DIR/targ##ets/PROJECTS/GENERIC-LTE-EPC/CONF/enb.band7.tm1.50PRB.usrpb210.conf -d
+#exec /opt/oai-enb/bin/lte-softmodem -O $ENB_CONF_FILE
